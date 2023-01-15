@@ -32,6 +32,8 @@ public:
   std::wstring SourceArchive() const { return std::wstring(m_idef->LinkedFilePath()); }
   InstanceDefinitionUpdateType UpdateType() const;
   BND_TUPLE GetObjectIds() const;
+  bool SetLinkedFileReference(InstanceDefinitionUpdateType linked_definition_type, BND_FileReference linked_file_reference);
+  void SetObjectIds(ON_SimpleArray<ON_UUID>& list);
   bool IsInstanceGeometryId(BND_UUID id) const { return m_idef->IsInstanceGeometryId(Binding_to_ON_UUID(id));}
 };
 

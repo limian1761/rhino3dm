@@ -160,7 +160,7 @@ class BND_File3dmInstanceDefinitionTable
 public:
   BND_File3dmInstanceDefinitionTable(std::shared_ptr<ONX_Model> m) { m_model = m; }
   int Count() const { return m_model.get()->ActiveComponentCount(ON_ModelComponent::Type::InstanceDefinition); }
-  void Add(const class BND_InstanceDefinitionGeometry& idef);
+  int Add(const class BND_InstanceDefinitionGeometry& idef);
   class BND_InstanceDefinitionGeometry* FindIndex(int index) const;
   class BND_InstanceDefinitionGeometry* IterIndex(int index) const; // helper function for iterator
   class BND_InstanceDefinitionGeometry* FindId(BND_UUID id) const;

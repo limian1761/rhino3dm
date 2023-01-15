@@ -44,6 +44,20 @@ BND_TUPLE BND_InstanceDefinitionGeometry::GetObjectIds() const
   return rc;
 }
 
+bool BND_InstanceDefinitionGeometry::SetLinkedFileReference(InstanceDefinitionUpdateType linked_definition_type,
+  BND_FileReference linked_file_reference)
+{
+  const wchar_t* path = linked_file_reference.GetFullPath().c_str();
+  ON_InstanceDefinition::IDEF_UPDATE_TYPE type = ON_InstanceDefinition::InstanceDefinitionTypeFromUnsigned((unsigned int)linked_definition_type);
+  return m_idef->SetLinkedFileReference(type, path);
+}
+
+void BND_InstanceDefinitionGeometry::SetObjectIds(ON_SimpleArray<ON_UUID>& list)
+{
+  m_idef->SetInstanceGeometryIdList(list);
+}
+
+
 BND_InstanceReferenceGeometry::BND_InstanceReferenceGeometry(ON_InstanceRef* iref, const ON_ModelComponentReference* compref)
 {
   SetTrackedPointer(iref, compref);
@@ -94,6 +108,8 @@ void initInstanceBindings(pybind11::module& m)
     .def_property_readonly("SourceArchive", &BND_InstanceDefinitionGeometry::SourceArchive)
     .def_property_readonly("UpdateType", &BND_InstanceDefinitionGeometry::UpdateType)
     .def("GetObjectIds", &BND_InstanceDefinitionGeometry::GetObjectIds)
+    .def("SetObjectIds", &BND_InstanceDefinitionGeometry::SetObjectIds, py::arg("ids"))
+    .def("SetLinkedFileReference", &BND_InstanceDefinitionGeometry::SetLinkedFileReference, py::arg("type"), py::arg("file"))
     .def("IsInstanceGeometryId", &BND_InstanceDefinitionGeometry::IsInstanceGeometryId, py::arg("id"))
     ;
 
